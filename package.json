@@ -1,7 +1,8 @@
 {
   "name": "wundernap",
   "version": "1.0.0",
-  "description": "",
+  "description": "give your Wunderlist tasks the sleep they deserve",
+  "repository": "https://github.com/00dani/wundernap",
   "main": "index.coffee",
   "dependencies": {
     "bluebird": "^3.3.4",
