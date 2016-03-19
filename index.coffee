@@ -58,7 +58,7 @@ moveTask = (task, dest) ->
     changes.remove = R.tail snoozedKeys
 
   action = if changes.remove then 'Snoozing' else 'Awakening'
-  console.log "#{action} task '#{task.title}' to list '#{dest.title}'"
+  console.log "#{action} task '#{task.title}'"
   api.patch url: "/tasks/#{task.id}", body: changes
 
 snooze = Promise.coroutine (list) ->
@@ -77,6 +77,7 @@ awaken = Promise.coroutine (list) ->
   for task in tasks
     moveTask task, dest, today
 
+console.log "Running Wundernap at #{now.format 'YYYY-MM-DD hh:mm:ss'}"
 lists.then (allLists) ->
   results = for listName, list of allLists
     if listName is 'Snoozed'
