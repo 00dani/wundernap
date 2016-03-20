@@ -32,16 +32,15 @@ lists = api.get 'lists'
   .then fetchTasks
   .then R.indexBy R.prop 'title'
 
+hasReminder = R.where reminder: R.identity
 isRecurring = R.where recurrence_type: R.identity
 isSnoozeTagged = R.where title: R.test /#snooze\b/
-isSnoozable = R.allPass [
-  R.anyPass [isRecurring, isSnoozeTagged]
-  R.where {
-    due_date: R.complement R.equals today
-    reminder: R.identity
-  }
-]
 isDue = (task) -> not task.reminder or (moment task.reminder.date).isSameOrBefore now
+isSnoozable = R.allPass [
+  hasReminder
+  R.complement isDue
+  R.anyPass [isRecurring, isSnoozeTagged]
+]
 
 moveTask = (task, dest) ->
   snoozedKeys = [
